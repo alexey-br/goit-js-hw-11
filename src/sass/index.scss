@@ -1,1 +1,101 @@
-@import './common';
+@import '~node_modules/modern-normalize/modern-normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f1f2f3;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  padding: 10px 0;
+  background: linear-gradient(90deg, #fdbb2d 0%, #22c1c3 100%);
+  text-align: center;
+}
+
+.search-form {
+  position: relative;
+  display: inline-block;
+}
+
+.search-form input {
+  padding: 5px 40px 5px 5px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: none;
+}
+
+.search-form button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  width: 40px;
+  height: 33px;
+  background-image: url(../images/search-icon.svg);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: center;
+  cursor: pointer;
+}
+
+.container {
+  text-align: center;
+  padding-top: 55px;
+  padding-bottom: 15px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  width: auto;
+  margin: 0 auto;
+}
+
+.photo-card {
+  width: 360px;
+  margin: 15px;
+
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.photo-card img {
+  width: 360px;
+  height: 240px;
+  object-fit: cover;
+}
+
+.photo-card .info {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.photo-card .info-item {
+  margin: 5px 0;
+}
+
+.info b {
+  display: block;
+  font-weight: 600;
+}
+
+.load-more {
+  display: inline-block;
+  padding: 5px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  font-size: 20px;
+  border: 1px solid;
+  cursor: pointer;
+  background: linear-gradient(
+    90deg,
+    rgba(253, 187, 45, 60%) 0%,
+    rgba(34, 193, 195, 60%) 100%
+  );
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
