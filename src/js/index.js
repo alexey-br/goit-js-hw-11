@@ -6,21 +6,22 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   searchForm: document.forms['search-form'],
-  loadMoreBtn: document.querySelector('.load-more'),
   gallery: document.querySelector('.gallery'),
+  footer: document.querySelector('footer'),
 };
 
 const pixabayApiService = new PixabayApiService();
 const gallery = new SimpleLightbox('.gallery a');
 
 refs.searchForm.addEventListener('submit', onSearch);
-refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 async function onSearch(e) {
   e.preventDefault();
 
   pixabayApiService.resetPage();
   pixabayApiService.query = e.currentTarget.searchQuery.value;
+  infitityScrollOff();
+  scrollToTop();
 
   try {
     const { hits, totalHits } = await pixabayApiService.fetchImages();
@@ -29,19 +30,23 @@ async function onSearch(e) {
     if (totalHits > 0) {
       notifySearchResult(totalHits);
       renderGallery(hits);
+      infitityScrollOn();
     } else notifyNoSearchResult();
   } catch (error) {
     console.log(error);
   }
 }
 
-async function onLoadMore() {
+async function loadMore() {
   try {
     const { hits } = await pixabayApiService.fetchImages();
     if (hits.length > 0) {
       renderGallery(hits);
       autoScroll();
-    } else notifyNoMoreSearchResult();
+    } else {
+      notifyNoMoreSearchResult();
+      infitityScrollOff();
+    }
   } catch (error) {
     console.log(error);
   }
@@ -54,6 +59,13 @@ function autoScroll() {
 
   window.scrollBy({
     top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
     behavior: 'smooth',
   });
 }
@@ -82,4 +94,26 @@ function notifyNoSearchResult() {
 
 function notifyNoMoreSearchResult() {
   Notify.warning("We're sorry, but you've reached the end of search results.");
+}
+
+const options = {
+  root: null,
+  rootMargins: '0px',
+  threshold: 0,
+};
+
+const scrollObserver = new IntersectionObserver(handleIntersect, options);
+
+function handleIntersect(entries) {
+  if (entries[0].isIntersecting) {
+    loadMore();
+  }
+}
+
+function infitityScrollOn() {
+  scrollObserver.observe(refs.footer);
+}
+
+function infitityScrollOff() {
+  scrollObserver.unobserve(refs.footer);
 }
